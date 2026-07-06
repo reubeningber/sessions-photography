@@ -1,0 +1,127 @@
+---
+import CloudinaryImage from './CloudinaryImage.astro';
+import { galleryImages } from '../data/gallery';
+---
+
+<section class="section" id="work">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Selected Work</p>
+      <h2>Recent sessions</h2>
+      <p>
+        A working gallery from test sessions this fall — full galleries land here as
+        they're delivered.
+      </p>
+    </div>
+
+    <ul class="gallery-grid">
+      {galleryImages.map((item) => (
+        <li class="gallery-item reveal">
+          <figure>
+            <CloudinaryImage
+              publicId={item.publicId}
+              placeholder={item.placeholder}
+              alt={item.alt}
+              aspectRatio={4 / 5}
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              class="gallery-item__image"
+            />
+            <figcaption class="gallery-item__caption">
+              <span>{item.caption}</span>
+              <span class="gallery-item__number">{item.number}</span>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .gallery-item__image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .gallery-item:hover .gallery-item__image {
+    box-shadow: var(--shadow-lift);
+  }
+
+  .gallery-item__caption {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-block-start: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .gallery-item__number {
+    color: var(--gold);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .gallery-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
+
+<script>
+  const revealItems = document.querySelectorAll('.reveal');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+    revealItems.forEach((item) => item.classList.add('is-visible'));
+  } else {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' },
+    );
+
+    revealItems.forEach((item) => observer.observe(item));
+  }
+</script>
