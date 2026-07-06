@@ -1,0 +1,67 @@
+---
+import { testimonials } from '../data/testimonials';
+---
+
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Testimonials</p>
+      <h2>What families said</h2>
+    </div>
+
+    <ul class="testimonial-grid">
+      {testimonials.map((testimonial) => (
+        <li class="testimonial">
+          <p class="testimonial__mark" aria-hidden="true">&ldquo;</p>
+          <blockquote>
+            <p>{testimonial.quote}</p>
+          </blockquote>
+          <p class="testimonial__attribution">{testimonial.attribution}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 4vw, 2.5rem);
+  }
+
+  .testimonial {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .testimonial__mark {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    line-height: 1;
+    color: var(--gold);
+  }
+
+  .testimonial blockquote p {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  .testimonial__attribution {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-block-start: 0.5rem;
+  }
+
+  @media (min-width: 760px) {
+    .testimonial-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>
