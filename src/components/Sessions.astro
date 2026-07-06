@@ -1,0 +1,122 @@
+---
+import { sessionTypes } from '../data/sessionTypes';
+---
+
+<section class="section" id="sessions">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Pricing</p>
+      <h2>Sessions</h2>
+    </div>
+
+    <div class="pricing-grid">
+      {sessionTypes.map((session) => (
+        <article class:list={['pricing-card', { 'pricing-card--featured': session.featured }]}>
+          {session.featured && <p class="pricing-card__badge">Most booked</p>}
+          <h3>{session.name}</h3>
+          <p class="pricing-card__price">{session.price}</p>
+          <p class="pricing-card__duration">{session.duration}</p>
+          <ul class="pricing-card__features">
+            {session.features.map((feature) => (
+              <li>{feature}</li>
+            ))}
+          </ul>
+          {session.note && <p class="pricing-card__note">{session.note}</p>}
+          <a
+            href="#contact"
+            class:list={['btn', session.featured ? 'btn-primary' : 'btn-outline']}
+          >
+            Book this session
+          </a>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .pricing-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    background-color: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    position: relative;
+  }
+
+  .pricing-card--featured {
+    border-color: var(--sage);
+  }
+
+  .pricing-card__badge {
+    position: absolute;
+    top: -0.75rem;
+    left: clamp(1.75rem, 3vw, 2.5rem);
+    background-color: var(--sage);
+    color: var(--paper);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius-pill);
+  }
+
+  .pricing-card__price {
+    font-family: var(--font-display);
+    font-size: 2.25rem;
+  }
+
+  .pricing-card__duration {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .pricing-card__features {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-block: 0.5rem 0.25rem;
+  }
+
+  .pricing-card__features li {
+    padding-inline-start: 1.25rem;
+    position: relative;
+  }
+
+  .pricing-card__features li::before {
+    content: '—';
+    position: absolute;
+    inset-inline-start: 0;
+    color: var(--sage);
+  }
+
+  .pricing-card__note {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .pricing-card .btn {
+    margin-block-start: 0.75rem;
+    align-self: flex-start;
+  }
+
+  @media (min-width: 640px) {
+    .pricing-grid {
+      grid-template-columns: repeat(2, 1fr);
+      align-items: start;
+    }
+  }
+</style>
