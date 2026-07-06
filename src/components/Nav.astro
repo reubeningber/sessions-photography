@@ -1,4 +1,6 @@
 ---
+import Logo from './Logo.astro';
+
 const links = [
   { href: '#work', label: 'Work' },
   { href: '#sessions', label: 'Sessions' },
@@ -8,9 +10,7 @@ const links = [
 
 <header class="site-header" id="site-header">
   <div class="container site-header__inner">
-    <a href="/" class="wordmark">
-      Photo Sessions <em>with Reuben</em>
-    </a>
+    <Logo />
 
     <nav class="site-nav" aria-label="Primary">
       <ul class="site-nav__links">
@@ -71,16 +71,6 @@ const links = [
     align-items: center;
     justify-content: space-between;
     padding-block: 1.1rem;
-  }
-
-  .wordmark {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    white-space: nowrap;
-  }
-
-  .wordmark em {
-    color: var(--sage);
   }
 
   .site-nav {

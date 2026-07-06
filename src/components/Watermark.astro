@@ -1,0 +1,55 @@
+---
+import LogoIcon from './LogoIcon.astro';
+
+interface Props {
+  position?: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
+  class?: string;
+}
+
+const { position = 'bottom-right', class: className } = Astro.props;
+---
+
+<div class:list={['watermark', className]} data-position={position}>
+  <slot />
+  <LogoIcon class="watermark__mark" />
+</div>
+
+<style>
+  .watermark {
+    position: relative;
+    display: inline-block;
+    line-height: 0;
+  }
+
+  /* :global() because this class targets the <svg> rendered inside the
+     LogoIcon child component — Astro only auto-scopes elements written
+     directly in this file's own template. */
+  :global(.watermark__mark) {
+    position: absolute;
+    width: 8%;
+    min-width: 28px;
+    max-width: 64px;
+    opacity: 0.6;
+    filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.25));
+  }
+
+  .watermark[data-position='bottom-right'] :global(.watermark__mark) {
+    inset-block-end: 4%;
+    inset-inline-end: 4%;
+  }
+
+  .watermark[data-position='bottom-left'] :global(.watermark__mark) {
+    inset-block-end: 4%;
+    inset-inline-start: 4%;
+  }
+
+  .watermark[data-position='top-right'] :global(.watermark__mark) {
+    inset-block-start: 4%;
+    inset-inline-end: 4%;
+  }
+
+  .watermark[data-position='top-left'] :global(.watermark__mark) {
+    inset-block-start: 4%;
+    inset-inline-start: 4%;
+  }
+</style>

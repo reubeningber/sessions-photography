@@ -1,0 +1,39 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<svg viewBox="0 0 64 64" role="img" aria-label="Photo Sessions with Reuben Ingber" class={className}>
+  <g class="logo-icon__brackets">
+    <path d="M8 20 V8 H20" />
+    <path d="M44 8 H56 V20" />
+    <path d="M56 44 V56 H44" />
+    <path d="M20 56 H8 V44" />
+  </g>
+  <text x="32" y="37.5" class="logo-icon__text" text-anchor="middle">RI</text>
+</svg>
+
+<style>
+  svg {
+    display: block;
+  }
+
+  .logo-icon__brackets path {
+    fill: none;
+    stroke: var(--sage);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .logo-icon__text {
+    fill: var(--gold);
+    font-family: var(--font-mono);
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+</style>

@@ -1,4 +1,4 @@
-# Photo Sessions with Reuben
+# Photo Sessions with Reuben Ingber
 
 Marketing site for a family photography side business, serving Queens,
 Brooklyn, and Manhattan, NYC. Built with [Astro](https://astro.build), styled
@@ -63,6 +63,22 @@ once those photos are ready.
 Until a section's `publicId` is `null`, it falls back to a warm-toned local
 placeholder SVG in `public/images/placeholders/` so the site never ships a
 broken image.
+
+## Watermarking delivered photos (optional)
+
+`src/components/Watermark.astro` wraps any image with the standalone
+`LogoIcon` overlaid subtly in a corner:
+
+```astro
+<Watermark position="bottom-right">
+  <img src="..." alt="..." />
+</Watermark>
+```
+
+`position` accepts `bottom-right` (default), `bottom-left`, `top-right`, or
+`top-left`. This isn't applied anywhere automatically — it's here for
+whenever you decide, per session, that a delivered gallery should carry the
+mark.
 
 ## Updating pricing and copy
 

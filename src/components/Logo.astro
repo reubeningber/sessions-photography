@@ -1,0 +1,53 @@
+---
+import LogoIcon from './LogoIcon.astro';
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<a href="/" class:list={['logo-lockup', className]}>
+  <LogoIcon class="logo-lockup__icon" />
+  <span class="logo-lockup__text">
+    <span class="logo-lockup__name">Photo Sessions</span>
+    <span class="logo-lockup__tagline">with Reuben Ingber</span>
+  </span>
+</a>
+
+<style>
+  .logo-lockup {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  /* :global() because this class targets the <svg> rendered inside the
+     LogoIcon child component — Astro only auto-scopes elements written
+     directly in this file's own template. */
+  :global(.logo-lockup__icon) {
+    width: 2.25rem;
+    height: 2.25rem;
+    flex-shrink: 0;
+  }
+
+  .logo-lockup__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .logo-lockup__name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    color: var(--ink);
+  }
+
+  .logo-lockup__tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--sage);
+  }
+</style>
