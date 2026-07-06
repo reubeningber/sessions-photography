@@ -1,0 +1,247 @@
+/* ------------------------------------------------------------------------
+   Design tokens
+   ------------------------------------------------------------------------ */
+:root {
+  --bg: #fbfaf7;
+  --paper: #ffffff;
+  --ink: #2b2a26;
+  --muted: #8e8879;
+  --sage: #5c6b4f;
+  --sage-deep: #47543d;
+  --gold: #b9924c;
+  --line: #e7e2d6;
+
+  --font-display: Georgia, 'Times New Roman', serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  --radius-sm: 6px;
+  --radius-pill: 100px;
+
+  --section-padding-block: clamp(3rem, 6vw + 1rem, 7rem);
+  --content-max-width: 72rem;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+
+  --shadow-lift: 0 12px 24px -16px rgb(43 42 38 / 0.25);
+}
+
+/* ------------------------------------------------------------------------
+   Reset
+   ------------------------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+picture,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* ------------------------------------------------------------------------
+   Typography
+   ------------------------------------------------------------------------ */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 4vw + 1rem, 4rem);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 2.5vw + 1rem, 2.75rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 1vw + 1rem, 1.5rem);
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ------------------------------------------------------------------------
+   Layout utilities
+   ------------------------------------------------------------------------ */
+.container {
+  width: 100%;
+  max-width: var(--content-max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-padding-block);
+  border-bottom: 1px solid var(--line);
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-block-end: clamp(2rem, 4vw, 3.5rem);
+}
+
+.section-header p {
+  color: var(--muted);
+  max-width: 40ch;
+}
+
+/* ------------------------------------------------------------------------
+   Buttons & links
+   ------------------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.9rem 1.75rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background-color: var(--sage);
+  color: var(--paper);
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  background-color: var(--sage-deep);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.btn-outline:hover,
+.btn-outline:focus-visible {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+
+.link-ghost {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--sage);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.link-ghost:hover,
+.link-ghost:focus-visible {
+  color: var(--sage-deep);
+  border-color: currentColor;
+}
+
+/* ------------------------------------------------------------------------
+   Focus states (accessibility)
+   ------------------------------------------------------------------------ */
+:focus-visible {
+  outline: 2px solid var(--sage);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------------
+   Motion
+   ------------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
