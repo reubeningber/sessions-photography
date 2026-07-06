@@ -1,0 +1,157 @@
+---
+const details = [
+  { label: 'Serving', value: 'Queens, Brooklyn & Manhattan' },
+  { label: 'Turnaround', value: 'Galleries delivered within 5 days' },
+  { label: 'Instagram', value: '@photosessionswithreuben' },
+  { label: 'Email', value: 'hello@reubeningber.com' },
+];
+---
+
+<section class="section" id="contact">
+  <div class="container">
+    <div class="section-header">
+      <p class="eyebrow">Get In Touch</p>
+      <h2>Check a date</h2>
+    </div>
+
+    <div class="contact-grid">
+      <form
+        name="booking-inquiry"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="company"
+        action="/thank-you/"
+        class="contact-form"
+      >
+        <input type="hidden" name="form-name" value="booking-inquiry" />
+        <p class="contact-form__honeypot">
+          <label>
+            Company
+            <input name="company" tabindex="-1" autocomplete="off" />
+          </label>
+        </p>
+
+        <div class="field">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" required autocomplete="name" />
+        </div>
+
+        <div class="field">
+          <label for="date">Preferred Date</label>
+          <input type="date" id="date" name="date" required />
+        </div>
+
+        <div class="field">
+          <label for="family-size">Family Size</label>
+          <input type="text" id="family-size" name="family-size" required placeholder="e.g. 2 adults, 2 kids" />
+        </div>
+
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send inquiry</button>
+      </form>
+
+      <dl class="contact-info">
+        {details.map((detail) => (
+          <div class="contact-info__row">
+            <dt>{detail.label}</dt>
+            <dd>{detail.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .contact-form__honeypot {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .field label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .field input,
+  .field textarea {
+    padding: 0.75rem 1rem;
+    background-color: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+  }
+
+  .field textarea {
+    resize: vertical;
+  }
+
+  .contact-form .btn {
+    align-self: flex-start;
+    margin-block-start: 0.5rem;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .contact-info__row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-block-end: 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .contact-info__row:last-child {
+    border-bottom: none;
+  }
+
+  .contact-info dt {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .contact-info dd {
+    margin-inline-start: 0;
+    font-size: 1.05rem;
+  }
+
+  @media (min-width: 760px) {
+    .contact-grid {
+      grid-template-columns: 1.3fr 1fr;
+    }
+  }
+</style>
