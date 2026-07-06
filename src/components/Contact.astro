@@ -4,8 +4,8 @@ import { sessionTypes } from '../data/sessionTypes';
 const details = [
   { label: 'Serving', value: 'Queens, Brooklyn & Manhattan' },
   { label: 'Turnaround', value: 'Galleries delivered within 5 days' },
-  { label: 'Instagram', value: '@photosessionswithreuben' },
-  { label: 'Email', value: 'sessions@reubeningber.com' },
+  { label: 'Instagram', value: '@photosessionswithreuben', href: 'https://www.instagram.com/photosessionswithreuben' },
+  { label: 'Email', value: 'sessions@reubeningber.com', href: 'mailto:sessions@reubeningber.com' },
 ];
 ---
 
@@ -76,7 +76,9 @@ const details = [
         {details.map((detail) => (
           <div class="contact-info__row">
             <dt>{detail.label}</dt>
-            <dd>{detail.value}</dd>
+            <dd>
+              {detail.href ? <a href={detail.href}>{detail.value}</a> : detail.value}
+            </dd>
           </div>
         ))}
       </dl>
@@ -203,6 +205,12 @@ const details = [
   .contact-info dd {
     margin-inline-start: 0;
     font-size: 1.05rem;
+  }
+
+  .contact-info dd a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.15em;
   }
 
   @media (min-width: 760px) {
