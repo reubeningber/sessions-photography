@@ -1,5 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <circle cx="32" cy="32" r="32" fill="#5C6B4F" />
-  <circle cx="32" cy="34" r="13" fill="none" stroke="#FBFAF7" stroke-width="3" />
-  <rect x="18" y="18" width="28" height="20" rx="3" fill="none" stroke="#FBFAF7" stroke-width="3" />
+  <g fill="none" stroke="#5C6B4F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 20 V8 H20" />
+    <path d="M44 8 H56 V20" />
+    <path d="M56 44 V56 H44" />
+    <path d="M20 56 H8 V44" />
+  </g>
+  <text x="32" y="37.5" text-anchor="middle" fill="#8A6A34" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="15" font-weight="600" letter-spacing="0.3">RI</text>
 </svg>
