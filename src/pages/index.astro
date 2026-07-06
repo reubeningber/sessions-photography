@@ -1,17 +1,11 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
 
+const title = 'Family Photographer in Queens, Brooklyn & Manhattan | Photo Sessions with Reuben';
+const description =
+  'Warm, true-to-life family photography around Queens, Brooklyn, and Manhattan. Real days, kept well — book a session with Reuben.';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={title} description={description}>
+  <p class="container" style="padding-block: 4rem;">Sections coming soon.</p>
+</BaseLayout>
