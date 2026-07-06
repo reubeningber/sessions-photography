@@ -5,10 +5,16 @@
   --bg: #fbfaf7;
   --paper: #ffffff;
   --ink: #2b2a26;
-  --muted: #8e8879;
+  /* Darkened from the original #8E8879 swatch — the lighter tone read at
+     only ~3.4:1 against --bg, below the 4.5:1 WCAG AA minimum for the body
+     copy sizes it's used at. */
+  --muted: #6b6459;
   --sage: #5c6b4f;
   --sage-deep: #47543d;
-  --gold: #b9924c;
+  /* Darkened from the original #B9924C swatch for the same reason — it's
+     used for eyebrow labels and quote marks, both real text, not just
+     decoration, so it needs to clear AA contrast against --bg/--paper. */
+  --gold: #8a6a34;
   --line: #e7e2d6;
 
   --font-display: Georgia, 'Times New Roman', serif;
@@ -222,6 +228,18 @@ i {
 .link-ghost:focus-visible {
   color: var(--sage-deep);
   border-color: currentColor;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 /* ------------------------------------------------------------------------

@@ -156,18 +156,6 @@ const links = [
     width: fit-content;
   }
 
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
   @media (min-width: 760px) {
     .site-nav {
       display: flex;
@@ -192,6 +180,11 @@ const links = [
   updateScrollState();
   window.addEventListener('scroll', updateScrollState, { passive: true });
 
+  const closeMenu = () => {
+    toggle?.setAttribute('aria-expanded', 'false');
+    if (mobileMenu) mobileMenu.hidden = true;
+  };
+
   toggle?.addEventListener('click', () => {
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
     toggle.setAttribute('aria-expanded', String(!isOpen));
@@ -200,8 +193,14 @@ const links = [
 
   mobileMenu?.addEventListener('click', (event) => {
     if ((event.target as HTMLElement).tagName === 'A') {
-      toggle?.setAttribute('aria-expanded', 'false');
-      mobileMenu.hidden = true;
+      closeMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle?.getAttribute('aria-expanded') === 'true') {
+      closeMenu();
+      toggle.focus();
     }
   });
 </script>
