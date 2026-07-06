@@ -8,6 +8,10 @@ with plain CSS, images delivered through Cloudinary, deployed on Netlify.
 
 Live at [sessions.reubeningber.com](https://sessions.reubeningber.com).
 
+This is a personal project for my own business — it's public for
+portfolio/reference purposes, not as a template intended for reuse or
+redeployment.
+
 ## Local development
 
 Requires Node 22.12+.
