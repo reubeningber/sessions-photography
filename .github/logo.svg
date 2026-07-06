@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 64">
+  <g fill="none" stroke="#5C6B4F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 20 V8 H20" />
+    <path d="M44 8 H56 V20" />
+    <path d="M56 44 V56 H44" />
+    <path d="M20 56 H8 V44" />
+  </g>
+  <text x="32" y="37.5" text-anchor="middle" fill="#8A6A34" font-family="ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace" font-size="15" font-weight="600" letter-spacing="0.3">RI</text>
+
+  <text x="84" y="30" fill="#2B2A26" font-family="Georgia, 'Times New Roman', serif" font-size="26">Photo Sessions</text>
+  <text x="84" y="50" fill="#5C6B4F" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="15">with Reuben Ingber</text>
+</svg>
