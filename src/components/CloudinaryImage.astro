@@ -1,0 +1,45 @@
+---
+import { cloudinaryUrl, cloudinarySrcSet } from '../lib/cloudinary';
+
+interface Props {
+  /** Cloudinary public ID (relative to the `sessions` folder), or null to use the local placeholder. */
+  publicId: string | null;
+  /** Local placeholder asset path, used until a real photo is uploaded to Cloudinary. */
+  placeholder: string;
+  alt: string;
+  aspectRatio: number;
+  widths?: number[];
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+}
+
+const {
+  publicId,
+  placeholder,
+  alt,
+  aspectRatio,
+  widths = [480, 768, 1024, 1600],
+  sizes = '100vw',
+  loading = 'lazy',
+  fetchpriority = 'auto',
+  class: className,
+} = Astro.props;
+
+const src = publicId
+  ? cloudinaryUrl(publicId, { width: widths[widths.length - 1], aspectRatio })
+  : placeholder;
+const srcset = publicId ? cloudinarySrcSet(publicId, { widths, aspectRatio }) : undefined;
+---
+
+<img
+  src={src}
+  srcset={srcset}
+  sizes={srcset ? sizes : undefined}
+  alt={alt}
+  loading={loading}
+  fetchpriority={fetchpriority}
+  decoding="async"
+  class={className}
+/>

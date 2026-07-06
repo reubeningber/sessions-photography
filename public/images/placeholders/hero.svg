@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 700" role="img" aria-hidden="true">
+  <defs>
+    <linearGradient id="ghero" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F1E9D8" />
+      <stop offset="100%" stop-color="#D9C9A8" />
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="700" fill="url(#ghero)" />
+  <circle cx="1152" cy="224" r="112" fill="#FBFAF7" opacity="0.35" />
+</svg>
