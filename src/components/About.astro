@@ -42,7 +42,10 @@ import CloudinaryImage from './CloudinaryImage.astro';
     align-items: center;
   }
 
-  .about__image {
+  /* :global() because this class targets the <img> rendered inside the
+     CloudinaryImage child component — Astro only auto-scopes elements
+     written directly in this file's own template. */
+  :global(.about__image) {
     width: min(100%, 22rem);
     aspect-ratio: 4 / 5;
     object-fit: cover;
@@ -66,7 +69,7 @@ import CloudinaryImage from './CloudinaryImage.astro';
       align-items: flex-start;
     }
 
-    .about__image {
+    :global(.about__image) {
       flex: 0 0 auto;
       width: min(36%, 22rem);
     }

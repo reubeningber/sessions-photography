@@ -67,7 +67,10 @@ import CloudinaryImage from './CloudinaryImage.astro';
     margin-block-start: 0.5rem;
   }
 
-  .hero__image {
+  /* :global() because this class targets the <img> rendered inside the
+     CloudinaryImage child component — Astro only auto-scopes elements
+     written directly in this file's own template. */
+  :global(.hero__image) {
     width: 100%;
     aspect-ratio: 16 / 10;
     object-fit: cover;
@@ -75,7 +78,7 @@ import CloudinaryImage from './CloudinaryImage.astro';
   }
 
   @media (min-width: 760px) {
-    .hero__image {
+    :global(.hero__image) {
       aspect-ratio: 16 / 7;
     }
   }

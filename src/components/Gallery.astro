@@ -44,7 +44,10 @@ import { galleryImages } from '../data/gallery';
     gap: clamp(1.25rem, 3vw, 2rem);
   }
 
-  .gallery-item__image {
+  /* :global() because this class targets the <img> rendered inside the
+     CloudinaryImage child component — Astro only auto-scopes elements
+     written directly in this file's own template. */
+  :global(.gallery-item__image) {
     width: 100%;
     aspect-ratio: 4 / 5;
     object-fit: cover;
@@ -52,7 +55,7 @@ import { galleryImages } from '../data/gallery';
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .gallery-item:hover .gallery-item__image {
+  .gallery-item:hover :global(.gallery-item__image) {
     box-shadow: var(--shadow-lift);
   }
 
