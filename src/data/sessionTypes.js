@@ -6,7 +6,7 @@ export const sessionTypes = [
     featured: false,
     features: [
       'Single location',
-      '15 edited digital images',
+      '15+ edited digital images',
       'Online gallery delivered in 5 days',
     ],
     note: 'Great for a quick seasonal update',
@@ -18,7 +18,7 @@ export const sessionTypes = [
     featured: true,
     features: [
       'One location',
-      '25 edited digital images',
+      '25+ edited digital images',
       'Print release included',
       'Online gallery delivered in 5 days',
     ],
