@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /preview
 
 Sitemap: https://sessions.reubeningber.com/sitemap-index.xml

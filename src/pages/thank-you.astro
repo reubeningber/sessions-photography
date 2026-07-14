@@ -1,34 +1,34 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import MinimalLayout from '../layouts/MinimalLayout.astro';
 
-const title = 'Thanks for reaching out | Photo Sessions with Reuben Ingber';
-const description = 'Your inquiry has been received — Reuben will follow up shortly.';
+const title = "You're on the list | Photo Sessions with Reuben Ingber";
+const description = "You're on the list — you'll be the first to know when sessions open.";
 ---
 
-<BaseLayout title={title} description={description}>
-  <section class="section thank-you">
-    <div class="container thank-you__inner">
+<MinimalLayout title={title} description={description}>
+  <section class="confirmation">
+    <div class="container confirmation__inner">
       <p class="eyebrow">Thank You</p>
-      <h1>Got it — talk soon.</h1>
-      <p>
-        Thanks for reaching out. I'll get back to you within a day or two to lock in a
-        date.
-      </p>
-      <a href="/#work" class="link-ghost">&larr; Back to the site</a>
+      <h1>You're on the list.</h1>
+      <p>I'll let you know the moment sessions open.</p>
+      <a href="/" class="link-ghost">&larr; Back</a>
     </div>
   </section>
-</BaseLayout>
+</MinimalLayout>
 
 <style>
-  .thank-you {
-    min-height: 50vh;
+  .confirmation {
+    min-height: 100vh;
     display: flex;
     align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
-  .thank-you__inner {
+  .confirmation__inner {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1rem;
     max-width: 32rem;
   }

@@ -12,6 +12,40 @@ This is a personal project for my own business — it's public for
 portfolio/reference purposes, not as a template intended for reuse or
 redeployment.
 
+## Coming-soon mode (temporary)
+
+The site is currently in "coming soon" mode ahead of the real launch:
+
+- `/` is a minimal email-capture page (`src/pages/index.astro`).
+- The full, finished site lives at `/preview` (`src/pages/preview/`) and is
+  gated behind Cloudflare Access — see **Reversing coming-soon mode** below
+  for how that's configured.
+- Coming-soon signups land under **Forms → coming-soon-signup** in the
+  Netlify dashboard (separate from the **booking-inquiry** form used by the
+  full site's contact form at `/preview/#contact`).
+
+### Reversing coming-soon mode (full launch)
+
+When ready to go live for real:
+
+1. Move `/preview` back to `/`:
+   - `git mv src/pages/preview/index.astro src/pages/index.astro` (overwriting
+     the coming-soon page — delete `src/pages/thank-you.astro` and
+     `src/layouts/MinimalLayout.astro` too if nothing else uses them)
+   - `git mv src/pages/preview/thank-you.astro src/pages/thank-you.astro`
+   - Fix the relative imports in both files (drop one `../`)
+   - Revert `Contact.astro`'s form `action` back to `/thank-you/`
+   - Revert `Logo.astro`/`Nav.astro`'s `href="/preview/"` back to `/`
+   - Remove the `/preview` sitemap filter in `astro.config.mjs` and the
+     `Disallow: /preview` line in `public/robots.txt`
+2. Remove the Cloudflare Access policy/path scoping added for `/preview`
+   (see the PR description or commit history for how it was set up) so the
+   whole domain is public again.
+3. Export the captured email list from **Netlify → Forms →
+   coming-soon-signup** before removing the coming-soon page — once the page
+   and its form are gone, new submissions can no longer arrive there, and
+   it's easiest to grab the CSV while the form still exists in the dashboard.
+
 ## Local development
 
 Requires Node 22.12+.

@@ -3,12 +3,13 @@ import LogoIcon from './LogoIcon.astro';
 
 interface Props {
   class?: string;
+  href?: string;
 }
 
-const { class: className } = Astro.props;
+const { class: className, href = '/' } = Astro.props;
 ---
 
-<a href="/" class:list={['logo-lockup', className]}>
+<a href={href} class:list={['logo-lockup', className]}>
   <LogoIcon class="logo-lockup__icon" />
   <span class="logo-lockup__text">
     <span class="logo-lockup__name">Photo Sessions</span>
