@@ -9,7 +9,7 @@ export const sessionTypes = [
       '15+ edited digital images',
       'Online gallery delivered in 5 days',
     ],
-    note: 'Great for a quick seasonal update',
+    note: null,
   },
   {
     name: 'Standard Session',
@@ -19,7 +19,6 @@ export const sessionTypes = [
     features: [
       'One location',
       '25+ edited digital images',
-      'Print release included',
       'Online gallery delivered in 5 days',
     ],
     note: null,

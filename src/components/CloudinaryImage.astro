@@ -8,6 +8,8 @@ interface Props {
   placeholder: string;
   alt: string;
   aspectRatio: number;
+  /** Cloudinary crop focal point — 'auto' (default) or 'faces', see cloudinaryUrl. */
+  gravity?: string;
   widths?: number[];
   sizes?: string;
   loading?: 'lazy' | 'eager';
@@ -20,6 +22,7 @@ const {
   placeholder,
   alt,
   aspectRatio,
+  gravity,
   widths = [480, 768, 1024, 1600],
   sizes = '100vw',
   loading = 'lazy',
@@ -28,9 +31,9 @@ const {
 } = Astro.props;
 
 const src = publicId
-  ? cloudinaryUrl(publicId, { width: widths[widths.length - 1], aspectRatio })
+  ? cloudinaryUrl(publicId, { width: widths[widths.length - 1], aspectRatio, gravity })
   : placeholder;
-const srcset = publicId ? cloudinarySrcSet(publicId, { widths, aspectRatio }) : undefined;
+const srcset = publicId ? cloudinarySrcSet(publicId, { widths, aspectRatio, gravity }) : undefined;
 ---
 
 <img

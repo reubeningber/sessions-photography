@@ -1,13 +1,12 @@
 export const testimonials = [
   {
     quote:
-      "He got our toddler mid-meltdown and somehow made it the best photo of the whole set.",
-    attribution: 'The Martinez Family, Forest Hills',
+      'Reuben does amazing work. He knows how to work well with kids, keeps things light and fun, works quickly and efficiently, and most importantly, the pictures come out beautiful.',
+    attribution: 'Sara',
   },
   {
-    quote:
-      "Didn't feel like a photoshoot at all — just an hour in the park that happened to get documented.",
-    attribution: 'The Chen Family, Sunnyside',
+    quote: 'I loved taking these pictures! Thank you thank you thank you thank you thank you!',
+    attribution: 'Hannah (Age 6)',
   },
   {
     quote:

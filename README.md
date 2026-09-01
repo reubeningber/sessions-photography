@@ -72,24 +72,52 @@ variables for the deployed build.
 
 ## Adding gallery photos
 
-1. Upload the photo to Cloudinary, into the `sessions` folder.
-2. Open `src/data/gallery.js` and either edit an existing entry or add a new
-   one:
+Images are never committed to this repo — they're hosted on Cloudinary and
+referenced by public ID. There are two ways to get a photo onto Cloudinary:
 
-   ```js
-   {
-     publicId: 'astoria-park-sunset', // the Cloudinary public ID, no folder prefix
-     placeholder: null,               // no longer needed once publicId is set
-     alt: 'Family photographed at sunset in Astoria Park',
-     caption: 'Astoria Park',
-     number: '10',
-   }
-   ```
-3. Commit and push — Netlify rebuilds and redeploys automatically.
+**Automated (recommended):**
+
+```sh
+npm run upload -- path/to/photo.jpg
+```
+
+This uploads the file into the `sessions` Cloudinary folder (using the
+`CLOUDINARY_API_KEY`/`CLOUDINARY_API_SECRET` in `.env` — see
+`.env.example`) and prints a ready-to-paste `src/data/gallery.js` entry,
+including the detected orientation and aspect ratio. Upload several at once
+by passing multiple paths, and override the public ID with
+`path/to/photo.jpg::custom-id` if you don't want the filename slug. See
+`scripts/upload-to-cloudinary.mjs` for details.
+
+**Manual:** upload the photo through the Cloudinary media library instead,
+into the `sessions` folder, if you'd rather not use the script.
+
+Either way, open `src/data/gallery.js` and add (or edit) an entry:
+
+```js
+{
+  publicId: 'astoria-park-sunset', // the Cloudinary public ID, no folder prefix
+  placeholder: null,               // no longer needed once publicId is set
+  alt: 'Family photographed at sunset in Astoria Park',
+  caption: 'Astoria Park',
+  orientation: 'landscape',        // 'portrait' or 'landscape' — controls grid layout
+  aspectRatio: 3 / 2,              // crop ratio; 4/5 portrait and 3/2 landscape are the defaults
+  number: '10',
+}
+```
+
+A `landscape` item automatically spans two grid columns at tablet width and
+up instead of being force-cropped into a portrait-shaped slot, so both
+orientations look intentional in the grid.
+
+Commit and push — Netlify rebuilds and redeploys automatically.
 
 The same pattern applies to the hero image (`src/components/Hero.astro`) and
 the about photo (`src/components/About.astro`) — pass a real `publicId`
-instead of `null` once those photos are ready.
+instead of `null` once those photos are ready. A `publicId` isn't limited to
+the `sessions` folder either: pass a full path (e.g.
+`web_assets/some-shared-asset`) to reference an asset stored elsewhere in
+the same Cloudinary account, such as one shared with reubeningber.com.
 
 Until a section's `publicId` is `null`, it falls back to a warm-toned local
 placeholder SVG in `public/images/placeholders/`.
