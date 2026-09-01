@@ -4,3 +4,9 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  # These are meant to be public — they're PUBLIC_-prefixed Astro env vars
+  # that get baked into the client-side bundle on purpose (a Cloudinary
+  # cloud name and a GA4 measurement ID, neither one a credential). Netlify's
+  # secrets scanner otherwise fails the build the moment it finds their
+  # literal values anywhere in the output, which it always will here.
+  SECRETS_SCAN_OMIT_KEYS = "PUBLIC_CLOUDINARY_CLOUD_NAME,PUBLIC_GA_MEASUREMENT_ID"
