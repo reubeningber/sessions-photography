@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { BASE_PATH } from '../../consts';
 
 const title = 'Thanks for reaching out | Photo Sessions with Reuben Ingber';
 const description = 'Your inquiry has been received — Reuben will follow up shortly.';
@@ -14,7 +15,7 @@ const description = 'Your inquiry has been received — Reuben will follow up sh
         Thanks for reaching out. I'll get back to you within a day or two to lock in a
         date.
       </p>
-      <a href="/preview/#work" class="link-ghost">&larr; Back to the site</a>
+      <a href={`${BASE_PATH}#work`} class="link-ghost">&larr; Back to the site</a>
     </div>
   </section>
 </BaseLayout>

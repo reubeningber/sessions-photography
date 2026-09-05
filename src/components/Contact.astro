@@ -1,5 +1,6 @@
 ---
 import { sessionTypes } from '../data/sessionTypes';
+import { BASE_PATH } from '../consts';
 
 const details = [
   { label: 'Serving', value: 'New York City and beyond' },
@@ -22,7 +23,7 @@ const details = [
         method="POST"
         data-netlify="true"
         netlify-honeypot="company"
-        action="/preview/thank-you/"
+        action={`${BASE_PATH}thank-you/`}
         class="contact-form"
       >
         <input type="hidden" name="form-name" value="booking-inquiry" />

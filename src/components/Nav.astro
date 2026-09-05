@@ -1,19 +1,20 @@
 ---
 import Logo from './Logo.astro';
+import { BASE_PATH } from '../consts';
 
 // Homepage-relative paths (not bare `#anchor`s) so these links resolve
 // correctly from any page, including standalone ones like /preview/faq/.
 const links = [
-  { href: '/preview/#work', label: 'Work' },
-  { href: '/preview/#sessions', label: 'Sessions' },
-  { href: '/preview/#about', label: 'About' },
-  { href: '/preview/faq/', label: 'FAQ' },
+  { href: `${BASE_PATH}#work`, label: 'Work' },
+  { href: `${BASE_PATH}#sessions`, label: 'Sessions' },
+  { href: `${BASE_PATH}#about`, label: 'About' },
+  { href: `${BASE_PATH}faq/`, label: 'FAQ' },
 ];
 ---
 
 <header class="site-header" id="site-header">
   <div class="container site-header__inner">
-    <Logo href="/preview/" />
+    <Logo href={BASE_PATH} />
 
     <nav class="site-nav" aria-label="Primary">
       <ul class="site-nav__links">
@@ -21,7 +22,7 @@ const links = [
           <li><a href={link.href}>{link.label}</a></li>
         ))}
       </ul>
-      <a href="/preview/#contact" class="btn btn-outline site-nav__cta">Book a Session</a>
+      <a href={`${BASE_PATH}#contact`} class="btn btn-outline site-nav__cta">Book a Session</a>
     </nav>
 
     <button
@@ -43,7 +44,7 @@ const links = [
       {links.map((link) => (
         <li><a href={link.href}>{link.label}</a></li>
       ))}
-      <li><a href="/preview/#contact" class="btn btn-primary mobile-menu__cta">Book a Session</a></li>
+      <li><a href={`${BASE_PATH}#contact`} class="btn btn-primary mobile-menu__cta">Book a Session</a></li>
     </ul>
   </div>
 </header>
