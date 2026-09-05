@@ -1,5 +1,19 @@
 ---
-import CloudinaryImage from './CloudinaryImage.astro';
+// The hero shows a rotating set of placeholder tiles until real session
+// photos are ready to swap in. Once Cloudinary photos exist, replace each
+// `placeholder` below with a `publicId` (see CloudinaryImage.astro) and
+// this same crossfade gallery will carry real photos instead.
+const slides = [
+  { placeholder: '/images/placeholders/hero.svg' },
+  { placeholder: '/images/placeholders/portrait-1.svg' },
+  { placeholder: '/images/placeholders/portrait-2.svg' },
+  { placeholder: '/images/placeholders/portrait-3.svg' },
+  { placeholder: '/images/placeholders/portrait-4.svg' },
+];
+
+// Total time (seconds) for one full loop through every slide.
+const slotSeconds = 4;
+const cycleSeconds = slides.length * slotSeconds;
 ---
 
 <section class="hero">
@@ -17,20 +31,27 @@ import CloudinaryImage from './CloudinaryImage.astro';
     </div>
   </div>
 
-  <div class="container">
-    <CloudinaryImage
-      publicId={null}
-      placeholder="/images/placeholders/hero.svg"
-      alt="Family walking together on a Queens sidewalk in late-afternoon light"
-      aspectRatio={16 / 10}
-      loading="eager"
-      fetchpriority="high"
-      class="hero__image"
-    />
+  <div
+    class="hero__gallery"
+    role="img"
+    aria-label="Rotating preview of family photography sessions — placeholder imagery, real photos coming soon"
+  >
+    {slides.map((slide, i) => (
+      <img
+        src={slide.placeholder}
+        alt=""
+        aria-hidden="true"
+        loading={i === 0 ? 'eager' : 'lazy'}
+        fetchpriority={i === 0 ? 'high' : 'auto'}
+        decoding="async"
+        class="hero__slide"
+        style={`animation-delay: -${i * slotSeconds}s;`}
+      />
+    ))}
   </div>
 </section>
 
-<style>
+<style define:vars={{ heroCycle: `${cycleSeconds}s` }}>
   .hero {
     padding-block-start: clamp(3rem, 6vw, 6rem);
     padding-block-end: var(--section-padding-block);
@@ -67,19 +88,61 @@ import CloudinaryImage from './CloudinaryImage.astro';
     margin-block-start: 0.5rem;
   }
 
-  /* :global() because this class targets the <img> rendered inside the
-     CloudinaryImage child component — Astro only auto-scopes elements
-     written directly in this file's own template. */
-  :global(.hero__image) {
+  /* Full-bleed: break out of .container so the gallery runs edge-to-edge
+     and reads as a bigger, more prominent hero than a boxed static image. */
+  .hero__gallery {
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    aspect-ratio: 4 / 3;
+  }
+
+  .hero__slide {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    aspect-ratio: 16 / 10;
+    height: 100%;
     object-fit: cover;
-    border-radius: var(--radius-sm);
+    opacity: 0;
+    animation: hero-fade var(--heroCycle) infinite;
+  }
+
+  /* Each slide shares one keyframe loop; a negative animation-delay
+     (set inline per slide) staggers where in the loop it starts, so the
+     slides advance in sequence with no JS required. */
+  @keyframes hero-fade {
+    0% {
+      opacity: 0;
+    }
+    4% {
+      opacity: 1;
+    }
+    18% {
+      opacity: 1;
+    }
+    24% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__slide {
+      animation: none;
+      opacity: 0;
+    }
+
+    .hero__slide:first-child {
+      opacity: 1;
+    }
   }
 
   @media (min-width: 760px) {
-    :global(.hero__image) {
-      aspect-ratio: 16 / 7;
+    .hero__gallery {
+      aspect-ratio: 21 / 9;
     }
   }
 </style>
