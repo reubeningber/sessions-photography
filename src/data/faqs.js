@@ -1,10 +1,11 @@
+import { BASE_PATH } from '../consts';
+
 // `answer` is rendered as trusted HTML by Accordion.astro (via set:html),
 // so it can use markup like <p>, <ul>, and <strong> — not just plain text.
 export const faqs = [
   {
     question: 'How do I book a session?',
-    answer:
-      "<p>Use the contact form on the homepage — pick a preferred date and session type, and I'll follow up within a day or two to confirm.</p>",
+    answer: `<p>Use the <a href="${BASE_PATH}#contact">contact form</a> on the homepage — pick a preferred date and session type, and I'll follow up within a day or two to confirm.</p>`,
   },
   {
     question: 'What should we wear?',
