@@ -1,0 +1,117 @@
+---
+interface Item {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items }: Props = Astro.props;
+---
+
+<div class="accordion">
+  {items.map((item, i) => (
+    <details class="accordion__item" name="faq-accordion">
+      <summary class="accordion__question">
+        <span>{item.question}</span>
+        <span class="accordion__icon" aria-hidden="true"></span>
+      </summary>
+      <div class="accordion__answer">
+        <p>{item.answer}</p>
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  /* `name="faq-accordion"` on every <details> (native HTML, no JS) means
+     opening one automatically closes the others — an "exclusive accordion"
+     with zero script. */
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    border-block-start: 1px solid var(--line);
+  }
+
+  .accordion__item {
+    border-block-end: 1px solid var(--line);
+  }
+
+  .accordion__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.35rem;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+  }
+
+  .accordion__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion__question:hover,
+  .accordion__question:focus-visible {
+    color: var(--sage-deep);
+  }
+
+  .accordion__icon {
+    position: relative;
+    flex: 0 0 auto;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .accordion__icon::before,
+  .accordion__icon::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background-color: var(--sage);
+    transition: transform 0.2s ease;
+  }
+
+  .accordion__icon::before {
+    width: 100%;
+    height: 2px;
+  }
+
+  .accordion__icon::after {
+    width: 2px;
+    height: 100%;
+  }
+
+  .accordion__item[open] .accordion__icon::after {
+    transform: rotate(90deg);
+    opacity: 0;
+  }
+
+  .accordion__answer {
+    padding-block-end: 1.5rem;
+    max-width: 60ch;
+    color: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .accordion__item[open] .accordion__answer {
+      animation: accordion-reveal 0.2s ease;
+    }
+  }
+
+  @keyframes accordion-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -1,0 +1,46 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Accordion from '../../components/Accordion.astro';
+import { faqs } from '../../data/faqs';
+
+const title = 'FAQ | Photo Sessions with Reuben Ingber';
+const description =
+  'Answers to common questions about booking, session length, weather, and turnaround time.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="section faq">
+    <div class="container faq__inner">
+      <p class="eyebrow">FAQ</p>
+      <h1>Questions, answered.</h1>
+      <p class="faq__intro">
+        Can't find what you're looking for? <a href="/preview/#contact">Reach out</a> and I'll
+        get back to you directly.
+      </p>
+
+      <Accordion items={faqs} />
+
+      <a href="/preview/#contact" class="btn btn-primary faq__cta">Check availability</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .faq__inner {
+    max-width: 42rem;
+  }
+
+  .faq__intro {
+    color: var(--muted);
+    margin-block: 0.75rem 2rem;
+  }
+
+  .faq__intro a {
+    color: var(--sage-deep);
+    text-decoration: underline;
+  }
+
+  .faq__cta {
+    margin-block-start: 2.5rem;
+  }
+</style>

@@ -1,10 +1,13 @@
 ---
 import Logo from './Logo.astro';
 
+// Homepage-relative paths (not bare `#anchor`s) so these links resolve
+// correctly from any page, including standalone ones like /preview/faq/.
 const links = [
-  { href: '#work', label: 'Work' },
-  { href: '#sessions', label: 'Sessions' },
-  { href: '#about', label: 'About' },
+  { href: '/preview/#work', label: 'Work' },
+  { href: '/preview/#sessions', label: 'Sessions' },
+  { href: '/preview/#about', label: 'About' },
+  { href: '/preview/faq/', label: 'FAQ' },
 ];
 ---
 
@@ -18,7 +21,7 @@ const links = [
           <li><a href={link.href}>{link.label}</a></li>
         ))}
       </ul>
-      <a href="#contact" class="btn btn-outline site-nav__cta">Book a Session</a>
+      <a href="/preview/#contact" class="btn btn-outline site-nav__cta">Book a Session</a>
     </nav>
 
     <button
@@ -40,7 +43,7 @@ const links = [
       {links.map((link) => (
         <li><a href={link.href}>{link.label}</a></li>
       ))}
-      <li><a href="#contact" class="btn btn-primary mobile-menu__cta">Book a Session</a></li>
+      <li><a href="/preview/#contact" class="btn btn-primary mobile-menu__cta">Book a Session</a></li>
     </ul>
   </div>
 </header>
