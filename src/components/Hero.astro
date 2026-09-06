@@ -1,14 +1,23 @@
 ---
-// The hero shows a rotating set of placeholder tiles until real session
-// photos are ready to swap in. Once Cloudinary photos exist, replace each
-// `placeholder` below with a `publicId` (see CloudinaryImage.astro) and
-// this same crossfade gallery will carry real photos instead.
+import CloudinaryImage from './CloudinaryImage.astro';
+
+// The hero shows a rotating crossfade of real session photos. Each slide is
+// a Cloudinary publicId (see CloudinaryImage.astro), cropped to a shared
+// wide 4:3 ratio with face-aware gravity so every photo reads consistently
+// regardless of its original orientation. The gallery box is boxed (not
+// full-bleed) — capped narrower than the page content and centered.
+const slideAspectRatio = 4 / 3;
+const slideGravity = 'faces';
+
 const slides = [
-  { placeholder: '/images/placeholders/hero.svg' },
-  { placeholder: '/images/placeholders/portrait-1.svg' },
-  { placeholder: '/images/placeholders/portrait-2.svg' },
-  { placeholder: '/images/placeholders/portrait-3.svg' },
-  { placeholder: '/images/placeholders/portrait-4.svg' },
+  { publicId: 'baby-bed-crawl', alt: 'Baby girl in a yellow outfit smiling while crawling across a bed' },
+  { publicId: 'heart-hands-mom', alt: 'Boy making a heart shape with his hands as his mom smiles beside him' },
+  { publicId: 'fence-peek', alt: 'Toddler girl peeking up through a wooden fence rail, smiling' },
+  { publicId: 'swing-sunglasses', alt: 'Boy in red sunglasses swinging at the playground' },
+  { publicId: 'autumn-couple-portrait', alt: 'Couple smiling together under a canopy of deep autumn leaves' },
+  { publicId: 'dad-kids-cheek-kisses', alt: 'Father getting cheek kisses from his two kids under the trees' },
+  { publicId: 'family-of-four-stoop', alt: 'Family of four smiling together on a brownstone stoop railing' },
+  { publicId: 'lakeside-portrait', alt: 'Young girl striking a playful pose, hands on hips, beside a park pond' },
 ];
 
 // Total time (seconds) for one full loop through every slide.
@@ -31,23 +40,32 @@ const cycleSeconds = slides.length * slotSeconds;
     </div>
   </div>
 
-  <div
-    class="hero__gallery"
-    role="img"
-    aria-label="Rotating preview of family photography sessions — placeholder imagery, real photos coming soon"
-  >
-    {slides.map((slide, i) => (
-      <img
-        src={slide.placeholder}
-        alt=""
-        aria-hidden="true"
-        loading={i === 0 ? 'eager' : 'lazy'}
-        fetchpriority={i === 0 ? 'high' : 'auto'}
-        decoding="async"
-        class="hero__slide"
-        style={`animation-delay: -${i * slotSeconds}s;`}
-      />
-    ))}
+  <div class="container">
+    <div
+      class="hero__gallery"
+      role="img"
+      aria-label="Rotating preview of recent family photography sessions around Queens and NYC"
+    >
+      {slides.map((slide, i) => (
+        <div
+          class="hero__slide"
+          aria-hidden="true"
+          style={`animation-delay: -${i * slotSeconds}s;`}
+        >
+          <CloudinaryImage
+            publicId={slide.publicId}
+            placeholder="/images/placeholders/hero.svg"
+            alt=""
+            aspectRatio={slideAspectRatio}
+            gravity={slideGravity}
+            sizes="100vw"
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchpriority={i === 0 ? 'high' : 'auto'}
+            class="hero__slide-img"
+          />
+        </div>
+      ))}
+    </div>
   </div>
 </section>
 
@@ -88,13 +106,12 @@ const cycleSeconds = slides.length * slotSeconds;
     margin-block-start: 0.5rem;
   }
 
-  /* Full-bleed: break out of .container so the gallery runs edge-to-edge
-     and reads as a bigger, more prominent hero than a boxed static image. */
+  /* Boxed, not full-bleed: sits in its own .container (same max-width and
+     padding-inline as the Recent sessions grid below), wide 4:3 crop. */
   .hero__gallery {
     position: relative;
     overflow: hidden;
-    width: 100vw;
-    margin-inline: calc(50% - 50vw);
+    width: 100%;
     aspect-ratio: 4 / 3;
   }
 
@@ -103,9 +120,15 @@ const cycleSeconds = slides.length * slotSeconds;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
     opacity: 0;
     animation: hero-fade var(--heroCycle) infinite;
+  }
+
+  .hero__slide-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   /* Each slide shares one keyframe loop; a negative animation-delay
@@ -140,9 +163,4 @@ const cycleSeconds = slides.length * slotSeconds;
     }
   }
 
-  @media (min-width: 760px) {
-    .hero__gallery {
-      aspect-ratio: 21 / 9;
-    }
-  }
 </style>

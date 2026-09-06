@@ -1,145 +1,22 @@
 ---
-import MinimalLayout from '../layouts/MinimalLayout.astro';
-import LogoIcon from '../components/LogoIcon.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/Hero.astro';
+import Gallery from '../components/Gallery.astro';
+import Sessions from '../components/Sessions.astro';
+import About from '../components/About.astro';
+import Testimonials from '../components/Testimonials.astro';
+import Contact from '../components/Contact.astro';
 
-const title = 'Coming Soon | Photo Sessions with Reuben Ingber';
+const title = 'Family Photographer in Queens, Brooklyn & Manhattan | Photo Sessions with Reuben Ingber';
 const description =
-  'New family photography sessions around Queens, Brooklyn, and Manhattan are coming soon. Leave your email to be the first to know.';
+  'Warm, true-to-life family photography around Queens, Brooklyn, and Manhattan. Real days, kept well — book a session with Reuben.';
 ---
 
-<MinimalLayout title={title} description={description}>
-  <section class="coming-soon">
-    <div class="container coming-soon__inner">
-      <div class="coming-soon__brand">
-        <LogoIcon class="coming-soon__icon" />
-        <span class="coming-soon__wordmark">
-          Photo Sessions <em>with Reuben Ingber</em>
-        </span>
-      </div>
-
-      <p class="coming-soon__tagline">New sessions, coming soon.</p>
-
-      <form
-        name="coming-soon-signup"
-        method="POST"
-        data-netlify="true"
-        netlify-honeypot="company"
-        action="/thank-you/"
-        class="coming-soon__form"
-      >
-        <input type="hidden" name="form-name" value="coming-soon-signup" />
-        <p class="coming-soon__honeypot">
-          <label>
-            Company
-            <input name="company" tabindex="-1" autocomplete="off" />
-          </label>
-        </p>
-
-        <label for="email" class="sr-only">Email address</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          autocomplete="email"
-          placeholder="you@email.com"
-          class="coming-soon__input"
-        />
-        <button type="submit" class="btn btn-primary">Notify me</button>
-      </form>
-    </div>
-  </section>
-</MinimalLayout>
-
-<style>
-  .coming-soon {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .coming-soon__inner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.75rem;
-    max-width: 30rem;
-    text-align: center;
-    padding-block: 4rem;
-  }
-
-  .coming-soon__brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .coming-soon__icon {
-    width: 3.5rem;
-    height: 3.5rem;
-  }
-
-  .coming-soon__wordmark {
-    font-family: var(--font-display);
-    font-size: 1.3rem;
-    color: var(--ink);
-  }
-
-  .coming-soon__wordmark em {
-    color: var(--sage);
-  }
-
-  .coming-soon__tagline {
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  .coming-soon__form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-    width: 100%;
-    margin-block-start: 0.5rem;
-  }
-
-  .coming-soon__honeypot {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-  }
-
-  .coming-soon__input {
-    padding: 0.85rem 1.1rem;
-    background-color: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-sm);
-    text-align: center;
-  }
-
-  .coming-soon__form .btn {
-    align-self: center;
-  }
-
-  @media (min-width: 540px) {
-    .coming-soon__form {
-      flex-direction: row;
-      justify-content: center;
-    }
-
-    .coming-soon__input {
-      flex: 1;
-      text-align: start;
-    }
-
-    .coming-soon__form .btn {
-      flex-shrink: 0;
-    }
-  }
-</style>
+<BaseLayout title={title} description={description}>
+  <Hero />
+  <Gallery />
+  <Sessions />
+  <About />
+  <Testimonials />
+  <Contact />
+</BaseLayout>

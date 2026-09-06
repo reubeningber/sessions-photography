@@ -21,7 +21,7 @@
 export const galleryImages = [
   {
     publicId: 'lakeside-portrait',
-    placeholder: '/images/placeholders/portrait-1.svg',
+    placeholder: null,
     alt: 'Young girl striking a playful pose, hands on hips, beside a park pond',
     caption: 'Lakeside portrait',
     orientation: 'portrait',
@@ -30,7 +30,7 @@ export const galleryImages = [
   },
   {
     publicId: 'autumn-couple-portrait',
-    placeholder: '/images/placeholders/portrait-2.svg',
+    placeholder: null,
     alt: 'Couple smiling together under a canopy of deep autumn leaves',
     caption: 'Autumn portrait',
     orientation: 'landscape',
@@ -38,17 +38,17 @@ export const galleryImages = [
     number: '02',
   },
   {
-    publicId: 'mother-daughter-bench',
-    placeholder: '/images/placeholders/portrait-1.svg',
-    alt: 'Mother and toddler daughter smiling close together on a bench',
-    caption: 'Mother & daughter',
+    publicId: 'toddler-stoop-portrait',
+    placeholder: null,
+    alt: "Toddler boy with curly hair smiling on a brownstone stoop",
+    caption: 'Stoop portrait',
     orientation: 'portrait',
     aspectRatio: 4 / 5,
     number: '03',
   },
   {
     publicId: 'mother-son-bench',
-    placeholder: '/images/placeholders/portrait-2.svg',
+    placeholder: null,
     alt: 'Mother and son sharing a close, warm moment on a bench',
     caption: 'Mother & son',
     orientation: 'portrait',
@@ -61,7 +61,7 @@ export const galleryImages = [
   },
   {
     publicId: 'bench-sunglasses',
-    placeholder: '/images/placeholders/portrait-3.svg',
+    placeholder: null,
     alt: 'Girl in oversized sunglasses laughing on a park bench',
     caption: 'Bench giggles',
     orientation: 'portrait',
@@ -69,40 +69,66 @@ export const galleryImages = [
     number: '05',
   },
   {
-    publicId: 'underpass-portrait',
-    placeholder: '/images/placeholders/portrait-3.svg',
-    alt: 'Boy in a puffer jacket posing against a graffiti-covered underpass wall',
-    caption: 'Underpass portrait',
-    orientation: 'landscape',
-    // The grid's equal-height rule pins a landscape tile's rendered box to
-    // roughly 5/3, not the usual 3/2 — a mismatch most landscape photos
-    // have enough headroom to absorb via the default CSS center-crop, but
-    // this one's tight, headshot-style framing (barely any margin above his
-    // head or below his hands) made that crop cut straight into him. Asking
-    // Cloudinary for 5/3 directly — matching the actual rendered box, with
-    // 'faces' gravity — moves the crop from a blind CSS center-crop to a
-    // face-aware one, so headroom is preserved and the CSS layer has
-    // nothing left to crop.
-    aspectRatio: 5 / 3,
-    gravity: 'faces',
+    publicId: 'mother-daughter-bench',
+    placeholder: null,
+    alt: 'Mother and toddler daughter smiling close together on a bench',
+    caption: 'Mother & daughter',
+    orientation: 'portrait',
+    aspectRatio: 4 / 5,
     number: '06',
   },
   {
-    publicId: null,
-    placeholder: '/images/placeholders/portrait-4.svg',
-    alt: 'Kids drawing with sidewalk chalk in Jackson Heights',
-    caption: 'Sidewalk chalk',
+    publicId: 'mom-and-kids-courtyard',
+    placeholder: null,
+    alt: "Mother laughing with her two children in a leafy courtyard",
+    caption: 'Mom & the kids',
     orientation: 'portrait',
     aspectRatio: 4 / 5,
     number: '07',
   },
   {
-    publicId: null,
-    placeholder: '/images/placeholders/portrait-1.svg',
-    alt: 'Grandmother and grandchild on a porch swing in Woodside',
-    caption: 'Porch swing',
+    publicId: 'dad-kids-cheek-kisses',
+    placeholder: null,
+    alt: "Father getting cheek kisses from his two kids under the trees",
+    caption: 'Daddy kisses',
+    orientation: 'landscape',
+    aspectRatio: 3 / 2,
+    number: '08',
+  },
+  {
+    publicId: 'girl-stoop-twirl',
+    placeholder: null,
+    alt: "Girl in a floral dress twirling on brownstone steps",
+    caption: 'Stoop twirl',
     orientation: 'portrait',
     aspectRatio: 4 / 5,
-    number: '08',
+    number: '09',
+  },
+  {
+    publicId: 'parents-stoop-portrait',
+    placeholder: null,
+    alt: "Couple smiling together on their brownstone stoop",
+    caption: 'Front stoop portrait',
+    orientation: 'portrait',
+    aspectRatio: 4 / 5,
+    number: '10',
+  },
+  {
+    publicId: 'family-of-four-stoop',
+    placeholder: null,
+    alt: "Family of four smiling together on a brownstone stoop railing",
+    caption: 'Family on the stoop',
+    orientation: 'portrait',
+    aspectRatio: 4 / 5,
+    number: '11',
+  },
+  {
+    publicId: 'girl-rug-smile',
+    placeholder: null,
+    alt: 'Toddler girl laughing with arms outstretched, lying on a patterned rug',
+    caption: 'Rug giggles',
+    orientation: 'landscape',
+    aspectRatio: 3 / 2,
+    number: '12',
   },
 ];

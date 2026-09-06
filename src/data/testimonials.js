@@ -9,8 +9,7 @@ export const testimonials = [
     attribution: 'Hannah (Age 6)',
   },
   {
-    quote:
-      'Gallery showed up four days later and every single photo looked like us, not like a catalog.',
-    attribution: 'The Okafor Family, Astoria',
+    quote: 'We got our photos back three days later and brought my wife to tears.',
+    attribution: 'Mark',
   },
 ];

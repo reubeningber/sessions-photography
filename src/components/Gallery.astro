@@ -20,7 +20,7 @@ const lightboxItems = galleryImages.map((item) => ({
       <h2>Recent sessions</h2>
     </div>
 
-    <ul class="gallery-grid">
+    <ul class="gallery-grid gallery-grid--collapsed" id="gallery-grid">
       {galleryImages.map((item, index) => {
         const isLandscape = item.orientation === 'landscape';
         const sizes = isLandscape
@@ -59,6 +59,10 @@ const lightboxItems = galleryImages.map((item) => ({
         );
       })}
     </ul>
+
+    <button type="button" class="gallery-show-more" id="gallery-show-more" aria-expanded="false" aria-controls="gallery-grid">
+      See more photos
+    </button>
   </div>
 
   <div class="lightbox" id="gallery-lightbox" hidden>
@@ -97,9 +101,65 @@ const lightboxItems = galleryImages.map((item) => ({
     container-type: inline-size;
     --gallery-gap: clamp(1.25rem, 3vw, 2rem);
     display: grid;
-    grid-template-columns: 1fr;
+    /* 2 columns is the baseline (including mobile) so a phone screen isn't
+       one photo per row — see the 1024px breakpoint below for 3-up. */
+    grid-template-columns: repeat(2, 1fr);
     grid-auto-flow: dense;
     gap: var(--gallery-gap);
+  }
+
+  /* A landscape photo spans both columns instead of being force-cropped
+     into a portrait-shaped slot. Its height is pinned (via cqw, not its
+     own aspect-ratio) to match the portrait tiles' height in the same row
+     — plain aspect-ratio can't do this because a 2-column span's width
+     includes a gap the portrait column doesn't have. */
+  .gallery-item--landscape {
+    grid-column: span 2;
+  }
+
+  .gallery-item--landscape :global(.gallery-item__image) {
+    aspect-ratio: auto;
+    height: calc((100cqw - var(--gallery-gap)) / 2 * 5 / 4);
+  }
+
+  /* Mobile-only: collapse to the first couple of rows with a "See more"
+     button, so the grid doesn't force a long scroll past the info below
+     it. Hiding items with display:none lets the dense grid reflow the
+     remaining tiles on its own. Un-collapsed (JS toggles the class off)
+     or on wider screens, every photo shows. */
+  @media (max-width: 39.99em) {
+    .gallery-grid--collapsed .gallery-item:nth-child(n + 8) {
+      display: none;
+    }
+  }
+
+  .gallery-show-more {
+    all: unset;
+    display: block;
+    width: fit-content;
+    margin: clamp(1.5rem, 5vw, 2.5rem) auto 0;
+    padding: 0.6rem 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+
+  .gallery-show-more:hover,
+  .gallery-show-more:focus-visible {
+    border-color: var(--ink);
+    background-color: var(--paper);
+  }
+
+  @media (min-width: 40em) {
+    .gallery-show-more {
+      display: none;
+    }
   }
 
   .gallery-item__trigger {
@@ -172,26 +232,6 @@ const lightboxItems = galleryImages.map((item) => ({
     }
   }
 
-  @media (min-width: 640px) {
-    .gallery-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    /* A landscape photo spans both columns instead of being force-cropped
-       into a portrait-shaped slot. Its height is pinned (via cqw, not its
-       own aspect-ratio) to match the portrait tiles' height in the same
-       row — plain aspect-ratio can't do this because a 2-column span's
-       width includes a gap the portrait column doesn't have. */
-    .gallery-item--landscape {
-      grid-column: span 2;
-    }
-
-    .gallery-item--landscape :global(.gallery-item__image) {
-      aspect-ratio: auto;
-      height: calc((100cqw - var(--gallery-gap)) / 2 * 5 / 4);
-    }
-  }
-
   @media (min-width: 1024px) {
     .gallery-grid {
       grid-template-columns: repeat(3, 1fr);
@@ -224,13 +264,18 @@ const lightboxItems = galleryImages.map((item) => ({
     cursor: pointer;
   }
 
+  /* The dialog's only flow child is the figure — prev/next/close are all
+     position: fixed (see .lightbox__control below), so they float over
+     the viewport instead of sitting in the flex row beside the image.
+     That's what keeps this responsive: on a narrow phone there's no
+     longer extra width reserved for two 2.75rem buttons plus gaps next
+     to the image, which used to push the dialog wider than the screen. */
   .lightbox__dialog {
     position: relative;
     z-index: 1;
     display: flex;
-    align-items: center;
-    gap: clamp(0.5rem, 3vw, 2rem);
     max-width: 100%;
+    max-height: 100%;
   }
 
   .lightbox__figure {
@@ -239,11 +284,12 @@ const lightboxItems = galleryImages.map((item) => ({
     align-items: center;
     gap: 0.75rem;
     max-width: min(90vw, 72rem);
+    max-height: 100%;
   }
 
   .lightbox__image {
-    max-width: min(90vw, 72rem);
-    max-height: 80vh;
+    max-width: 100%;
+    max-height: min(80vh, 100%);
     width: auto;
     height: auto;
     object-fit: contain;
@@ -274,19 +320,25 @@ const lightboxItems = galleryImages.map((item) => ({
     opacity: 0.85;
   }
 
+  /* position: fixed (not absolute) so every control anchors to the
+     viewport itself regardless of the dialog/image's own size — a tall
+     portrait photo can't push the close button off the top of the
+     screen, and these no longer take up flex-row width next to the
+     image (see .lightbox__dialog above). */
   .lightbox__control {
     all: unset;
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 2.75rem;
     height: 2.75rem;
-    flex: none;
     border-radius: 50%;
     background-color: rgb(251 250 247 / 0.12);
     color: var(--paper);
     cursor: pointer;
     transition: background-color 0.2s ease;
+    z-index: 2;
   }
 
   .lightbox__control:hover,
@@ -300,15 +352,30 @@ const lightboxItems = galleryImages.map((item) => ({
   }
 
   .lightbox__close {
-    position: absolute;
-    inset-block-start: -3.5rem;
-    inset-inline-end: 0;
+    inset-block-start: 1rem;
+    inset-inline-end: 1rem;
+  }
+
+  .lightbox__nav {
+    inset-block-start: 50%;
+    transform: translateY(-50%);
+  }
+
+  .lightbox__nav--prev {
+    inset-inline-start: 0.5rem;
+  }
+
+  .lightbox__nav--next {
+    inset-inline-end: 0.5rem;
   }
 
   @media (min-width: 640px) {
-    .lightbox__close {
-      inset-block-start: 0;
-      inset-inline-end: -3.5rem;
+    .lightbox__nav--prev {
+      inset-inline-start: 1.5rem;
+    }
+
+    .lightbox__nav--next {
+      inset-inline-end: 1.5rem;
     }
   }
 
@@ -318,6 +385,15 @@ const lightboxItems = galleryImages.map((item) => ({
 </style>
 
 <script>
+  const galleryGrid = document.getElementById('gallery-grid');
+  const showMoreBtn = document.getElementById('gallery-show-more');
+
+  showMoreBtn?.addEventListener('click', () => {
+    galleryGrid?.classList.remove('gallery-grid--collapsed');
+    showMoreBtn.setAttribute('aria-expanded', 'true');
+    showMoreBtn.hidden = true;
+  });
+
   const revealItems = document.querySelectorAll('.reveal');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

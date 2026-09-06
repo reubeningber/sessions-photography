@@ -1,12 +1,29 @@
 ---
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import Accordion from '../../components/Accordion.astro';
-import { faqs } from '../../data/faqs';
-import { BASE_PATH } from '../../consts';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Accordion from '../components/Accordion.astro';
+import { faqs } from '../data/faqs';
+import { BASE_PATH } from '../consts';
 
 const title = 'FAQ | Photo Sessions with Reuben Ingber';
 const description =
   'Answers to common questions about booking, session length, weather, and turnaround time.';
+
+// Reuses the same faqs data the visible Accordion renders, so the rich
+// result Google may show always matches this page's real content — just
+// stripped of the answer HTML (schema.org's `text` wants plain text, not
+// the <p>/<ul>/<strong> markup Accordion renders via set:html).
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim(),
+    },
+  })),
+};
 ---
 
 <BaseLayout title={title} description={description}>
@@ -24,6 +41,8 @@ const description =
       <a href={`${BASE_PATH}#contact`} class="btn btn-primary faq__cta">Check availability</a>
     </div>
   </section>
+
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 </BaseLayout>
 
 <style>

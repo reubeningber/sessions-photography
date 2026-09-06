@@ -7,7 +7,12 @@ interface Props {
   /** Local placeholder asset path, used until a real photo is uploaded to Cloudinary. */
   placeholder: string;
   alt: string;
-  aspectRatio: number;
+  /** Required unless `crop` is a non-cropping mode like 'limit' (see cloudinaryUrl). */
+  aspectRatio?: number;
+  /** Cloudinary crop mode — defaults to 'fill' (crop to aspectRatio). Use 'limit' to
+   * scale down to fit without upscaling or cropping, preserving the photo's own
+   * aspect ratio (pair with object-fit: contain in the consuming component's CSS). */
+  crop?: string;
   /** Cloudinary crop focal point — 'auto' (default) or 'faces', see cloudinaryUrl. */
   gravity?: string;
   widths?: number[];
@@ -22,6 +27,7 @@ const {
   placeholder,
   alt,
   aspectRatio,
+  crop,
   gravity,
   widths = [480, 768, 1024, 1600],
   sizes = '100vw',
@@ -31,9 +37,9 @@ const {
 } = Astro.props;
 
 const src = publicId
-  ? cloudinaryUrl(publicId, { width: widths[widths.length - 1], aspectRatio, gravity })
+  ? cloudinaryUrl(publicId, { width: widths[widths.length - 1], aspectRatio, crop, gravity })
   : placeholder;
-const srcset = publicId ? cloudinarySrcSet(publicId, { widths, aspectRatio, gravity }) : undefined;
+const srcset = publicId ? cloudinarySrcSet(publicId, { widths, aspectRatio, crop, gravity }) : undefined;
 ---
 
 <img

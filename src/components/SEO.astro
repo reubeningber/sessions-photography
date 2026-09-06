@@ -1,14 +1,36 @@
 ---
+import { cloudinaryUrl } from '../lib/cloudinary';
+import { sessionTypes } from '../data/sessionTypes';
+
 interface Props {
   title: string;
   description: string;
+  /** Absolute or site-relative image URL. Defaults to a real photo (not a
+   * placeholder graphic) sized for social-share previews — see the
+   * `defaultOgImage` note below for why it forces a concrete format. */
   image?: string;
 }
 
-const { title, description, image = '/images/placeholders/hero.svg' } = Astro.props;
+const { title, description, image } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
-const imageUrl = new URL(image, Astro.site).toString();
+
+// f_jpg (not the usual f_auto) because crawlers that unfurl og:image/
+// twitter:image links typically don't send an Accept header, so format
+// negotiation can't happen — an avif/webp response can fail to render in
+// the share preview even though it's fine for a real browser tab.
+const defaultOgImage = cloudinaryUrl('autumn-couple-portrait', {
+  width: 1200,
+  aspectRatio: 1200 / 630,
+  crop: 'fill',
+  gravity: 'faces',
+  format: 'jpg',
+});
+
+const imageUrl = new URL(image ?? defaultOgImage, Astro.site).toString();
+
+const prices = sessionTypes.map((session) => Number(session.price.replace(/[^0-9.]/g, '')));
+const priceRange = `$${Math.min(...prices)}-$${Math.max(...prices)}`;
 
 const businessSchema = {
   '@context': 'https://schema.org',
@@ -17,9 +39,18 @@ const businessSchema = {
   description:
     'Family photography sessions on location around Queens, Brooklyn, and Manhattan, NYC.',
   url: 'https://sessions.reubeningber.com',
+  email: 'sessions@reubeningber.com',
   areaServed: ['Queens, NY', 'Brooklyn, NY', 'Manhattan, NY'],
-  priceRange: '$200-$300',
-  image: imageUrl,
+  priceRange,
+  image: defaultOgImage,
+  sameAs: ['https://www.instagram.com/photosessionswithreuben'],
+  makesOffer: sessionTypes.map((session) => ({
+    '@type': 'Offer',
+    name: session.name,
+    price: session.price.replace(/[^0-9.]/g, ''),
+    priceCurrency: 'USD',
+    description: `${session.duration} — ${session.features.join(', ')}`,
+  })),
 };
 ---
 

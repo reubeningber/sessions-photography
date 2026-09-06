@@ -39,9 +39,14 @@ const GRAVITY_COMPATIBLE_CROPS = new Set(['fill', 'crop', 'thumb', 'lfill', 'fil
  *   e.g. 'auto' (content-aware saliency, the default) or 'faces' (centers
  *   on detected faces — better than 'auto' for close portraits where
  *   saliency tends to favor background detail over the people).
+ * @param {string} [options.format] - Delivery format — defaults to 'auto'
+ *   (negotiates WebP/AVIF per browser). Pass a concrete format like 'jpg'
+ *   for contexts that fetch the URL without an Accept header (social-share
+ *   crawlers reading og:image, for instance), where format negotiation
+ *   can't happen and a modern format may not render.
  */
-export function cloudinaryUrl(publicId, { width = 1200, aspectRatio, crop = 'fill', gravity = 'auto' } = {}) {
-  const transformations = [`f_auto`, `q_auto`, `w_${width}`, `c_${crop}`];
+export function cloudinaryUrl(publicId, { width = 1200, aspectRatio, crop = 'fill', gravity = 'auto', format = 'auto' } = {}) {
+  const transformations = [`f_${format}`, `q_auto`, `w_${width}`, `c_${crop}`];
 
   if (GRAVITY_COMPATIBLE_CROPS.has(crop)) {
     transformations.push(`g_${gravity}`);

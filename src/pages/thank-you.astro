@@ -1,34 +1,35 @@
 ---
-import MinimalLayout from '../layouts/MinimalLayout.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BASE_PATH } from '../consts';
 
-const title = "You're on the list | Photo Sessions with Reuben Ingber";
-const description = "You're on the list — you'll be the first to know when sessions open.";
+const title = 'Thanks for reaching out | Photo Sessions with Reuben Ingber';
+const description = 'Your inquiry has been received — Reuben will follow up shortly.';
 ---
 
-<MinimalLayout title={title} description={description}>
-  <section class="confirmation">
-    <div class="container confirmation__inner">
+<BaseLayout title={title} description={description}>
+  <section class="section thank-you">
+    <div class="container thank-you__inner">
       <p class="eyebrow">Thank You</p>
-      <h1>You're on the list.</h1>
-      <p>I'll let you know the moment sessions open.</p>
-      <a href="/" class="link-ghost">&larr; Back</a>
+      <h1>Got it — talk soon.</h1>
+      <p>
+        Thanks for reaching out. I'll get back to you within a day or two to lock in a
+        date.
+      </p>
+      <a href={`${BASE_PATH}#work`} class="link-ghost">&larr; Back to the site</a>
     </div>
   </section>
-</MinimalLayout>
+</BaseLayout>
 
 <style>
-  .confirmation {
-    min-height: 100vh;
+  .thank-you {
+    min-height: 50vh;
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
   }
 
-  .confirmation__inner {
+  .thank-you__inner {
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 1rem;
     max-width: 32rem;
   }

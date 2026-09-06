@@ -1,4 +1,3 @@
-// The site currently lives under /preview/ while the "Coming Soon" page
-// occupies the real root. At launch, /preview/* is promoted to `/` and
-// this becomes '/' — every cross-page link built from it updates at once.
-export const BASE_PATH = '/preview/';
+// Single source of truth for the site's root path, so every cross-page
+// link built from it updates at once if that ever needs to change again.
+export const BASE_PATH = '/';
