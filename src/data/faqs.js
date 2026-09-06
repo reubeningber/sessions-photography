@@ -42,6 +42,6 @@ export const faqs = [
   {
     question: 'Where do you shoot?',
     answer:
-      '<p>Queens, Brooklyn, and Manhattan — your neighborhood, a park you love, or your home. If you have a spot in mind, that usually makes for the best session.</p>',
+      '<p>The New York tri-state area — your neighborhood, a park you love, or your home. If you have a spot in mind, that usually makes for the best session.</p>',
   },
 ];

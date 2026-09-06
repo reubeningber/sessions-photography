@@ -1,13 +1,14 @@
 ---
-import { cloudinaryUrl } from '../lib/cloudinary';
 import { sessionTypes } from '../data/sessionTypes';
 
 interface Props {
   title: string;
   description: string;
-  /** Absolute or site-relative image URL. Defaults to a real photo (not a
-   * placeholder graphic) sized for social-share previews — see the
-   * `defaultOgImage` note below for why it forces a concrete format. */
+  /** Absolute or site-relative image URL. Defaults to the branded
+   * logo/wordmark share card (public/images/og-share.png) — a static PNG
+   * rather than a Cloudinary transform, so there's no format-negotiation
+   * risk for crawlers that unfurl og:image/twitter:image without an
+   * Accept header. */
   image?: string;
 }
 
@@ -15,17 +16,7 @@ const { title, description, image } = Astro.props;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
 
-// f_jpg (not the usual f_auto) because crawlers that unfurl og:image/
-// twitter:image links typically don't send an Accept header, so format
-// negotiation can't happen — an avif/webp response can fail to render in
-// the share preview even though it's fine for a real browser tab.
-const defaultOgImage = cloudinaryUrl('autumn-couple-portrait', {
-  width: 1200,
-  aspectRatio: 1200 / 630,
-  crop: 'fill',
-  gravity: 'faces',
-  format: 'jpg',
-});
+const defaultOgImage = '/images/og-share.png';
 
 const imageUrl = new URL(image ?? defaultOgImage, Astro.site).toString();
 
@@ -37,13 +28,22 @@ const businessSchema = {
   '@type': 'ProfessionalService',
   name: 'Photo Sessions with Reuben Ingber',
   description:
-    'Family photography sessions on location around Queens, Brooklyn, and Manhattan, NYC.',
+    'Family photography sessions on location around the New York tri-state area.',
   url: 'https://sessions.reubeningber.com',
   email: 'sessions@reubeningber.com',
-  areaServed: ['Queens, NY', 'Brooklyn, NY', 'Manhattan, NY'],
+  areaServed: ['New York, NY', 'New Jersey', 'Connecticut'],
   priceRange,
-  image: defaultOgImage,
+  image: imageUrl,
   sameAs: ['https://www.instagram.com/photosessionswithreuben'],
+  founder: {
+    '@type': 'Person',
+    name: 'Reuben Ingber',
+    url: 'https://reubeningber.com',
+    sameAs: [
+      'https://www.instagram.com/reubeningber',
+      'https://www.instagram.com/reuben_in_color',
+    ],
+  },
   makesOffer: sessionTypes.map((session) => ({
     '@type': 'Offer',
     name: session.name,
