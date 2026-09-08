@@ -1,23 +1,45 @@
 ---
 import CloudinaryImage from './CloudinaryImage.astro';
 
-// The hero shows a rotating crossfade of real session photos. Each slide is
-// a Cloudinary publicId (see CloudinaryImage.astro), cropped to a shared
-// wide 4:3 ratio with face-aware gravity so every photo reads consistently
-// regardless of its original orientation. The gallery box is boxed (not
-// full-bleed) — capped narrower than the page content and centered.
-const slideAspectRatio = 4 / 3;
+// The hero shows a rotating crossfade of real session photos, mixing
+// landscape and portrait originals, boxed at 3:2 — the landscape photos'
+// own native ratio — rather than an arbitrary shape. That means a
+// landscape slide fills the box exactly (zero crop) and, since object-fit:
+// contain always scales a narrower-than-box image to the box's full
+// height, a portrait slide reaches that exact same display height
+// automatically, with no crop needed just to make the heights match.
+// Portrait originals (~2:3, quite tall) still get a modest top/bottom trim
+// down to 4:5 — closer to the box's own proportions — so they lean a bit
+// less on the empty side space than an uncropped 2:3 photo would.
+// Landscape stays fully uncropped since it already matches the box.
+//
+// The empty side space around a boxed portrait sits over a single, static,
+// full-bleed wash of the site's own sage green (see .hero__gallery-wash) —
+// not a blurred copy of each photo. Earlier that per-photo blurred
+// backdrop caused two real problems: since it was a completely separate
+// element from its own foreground photo, a crossfade could briefly show
+// one slide's sharp photo over a DIFFERENT slide's blur; and closing that
+// gap by cutting all overlap between slides left a beat of nothing (page
+// white) between every photo, which read as a harsh blink. A single wash
+// that never changes sidesteps both — there's nothing per-slide to fall
+// out of sync, and it's safe to let two photos gently overlap while
+// crossfading (see the .hero__slide comment) since the worst case is just
+// a normal dissolve over a calm, constant color, never a mismatched image.
+const portraitCropAspectRatio = 4 / 5;
 const slideGravity = 'faces';
 
+// Orientation (from each photo's actual Cloudinary dimensions) drives the
+// portrait top/bottom trim above and the mobile landscape/portrait split
+// below.
 const slides = [
-  { publicId: 'baby-bed-crawl', alt: 'Baby girl in a yellow outfit smiling while crawling across a bed' },
-  { publicId: 'heart-hands-mom', alt: 'Boy making a heart shape with his hands as his mom smiles beside him' },
-  { publicId: 'fence-peek', alt: 'Toddler girl peeking up through a wooden fence rail, smiling' },
-  { publicId: 'swing-sunglasses', alt: 'Boy in red sunglasses swinging at the playground' },
-  { publicId: 'autumn-couple-portrait', alt: 'Couple smiling together under a canopy of deep autumn leaves' },
-  { publicId: 'dad-kids-cheek-kisses', alt: 'Father getting cheek kisses from his two kids under the trees' },
-  { publicId: 'family-of-four-stoop', alt: 'Family of four smiling together on a brownstone stoop railing' },
-  { publicId: 'lakeside-portrait', alt: 'Young girl striking a playful pose, hands on hips, beside a park pond' },
+  { publicId: 'baby-bed-crawl', alt: 'Baby girl in a yellow outfit smiling while crawling across a bed', orientation: 'landscape' },
+  { publicId: 'heart-hands-mom', alt: 'Boy making a heart shape with his hands as his mom smiles beside him', orientation: 'landscape' },
+  { publicId: 'fence-peek', alt: 'Toddler girl peeking up through a wooden fence rail, smiling', orientation: 'landscape' },
+  { publicId: 'swing-sunglasses', alt: 'Boy in red sunglasses swinging at the playground', orientation: 'portrait' },
+  { publicId: 'autumn-couple-portrait', alt: 'Couple smiling together under a canopy of deep autumn leaves', orientation: 'landscape' },
+  { publicId: 'dad-kids-cheek-kisses', alt: 'Father getting cheek kisses from his two kids under the trees', orientation: 'landscape' },
+  { publicId: 'family-of-four-stoop', alt: 'Family of four smiling together on a brownstone stoop railing', orientation: 'portrait' },
+  { publicId: 'lakeside-portrait', alt: 'Young girl striking a playful pose, hands on hips, beside a park pond', orientation: 'portrait' },
 ];
 
 // Total time (seconds) for one full loop through every slide.
@@ -42,13 +64,15 @@ const cycleSeconds = slides.length * slotSeconds;
 
   <div class="container">
     <div
-      class="hero__gallery"
+      class="hero__gallery-outer"
       role="img"
       aria-label="Rotating preview of recent family photography sessions around the New York tri-state area"
     >
+      <div class="hero__gallery-wash" aria-hidden="true"></div>
+
       {slides.map((slide, i) => (
         <div
-          class="hero__slide"
+          class:list={['hero__slide', `hero__slide--${slide.orientation}`]}
           aria-hidden="true"
           style={`animation-delay: -${i * slotSeconds}s;`}
         >
@@ -56,8 +80,9 @@ const cycleSeconds = slides.length * slotSeconds;
             publicId={slide.publicId}
             placeholder="/images/placeholders/hero.svg"
             alt=""
-            aspectRatio={slideAspectRatio}
-            gravity={slideGravity}
+            crop={slide.orientation === 'portrait' ? 'fill' : 'limit'}
+            aspectRatio={slide.orientation === 'portrait' ? portraitCropAspectRatio : undefined}
+            gravity={slide.orientation === 'portrait' ? slideGravity : undefined}
             sizes="100vw"
             loading={i === 0 ? 'eager' : 'lazy'}
             fetchpriority={i === 0 ? 'high' : 'auto'}
@@ -71,9 +96,17 @@ const cycleSeconds = slides.length * slotSeconds;
 
 <style define:vars={{ heroCycle: `${cycleSeconds}s` }}>
   .hero {
-    padding-block-start: clamp(3rem, 6vw, 6rem);
-    padding-block-end: var(--section-padding-block);
-    border-bottom: 1px solid var(--line);
+    padding-block-start: clamp(1.5rem, 3vw, 3rem);
+    /* No border-bottom and no padding-block-end here on purpose — the
+       section right after this (Gallery, class="section") already carries
+       its own top padding via --section-padding-block, so adding the same
+       amount (or a divider) here too just stacked on top of it. */
+    /* The full-bleed wash (and, on mobile, the landscape photo itself)
+       breaks out to 100vw — if the page's own vertical scrollbar shaves a
+       few px off the true viewport width, that breakout could overshoot by
+       that much and add a horizontal scrollbar of its own. This keeps that
+       overshoot clipped. */
+    overflow-x: hidden;
   }
 
   .hero__inner {
@@ -106,15 +139,46 @@ const cycleSeconds = slides.length * slotSeconds;
     margin-block-start: 0.5rem;
   }
 
-  /* Boxed, not full-bleed: sits in its own .container (same max-width and
-     padding-inline as the Recent sessions grid below), wide 4:3 crop. */
-  .hero__gallery {
+  /* Establishes the visual height: 3:2 matches the landscape photos' native
+     ratio — see the comment above the JS slideAspectRatio constant for why
+     that also equalizes display height across orientations. This height is
+     driven by THIS element's own width (the boxed .container width, not the
+     viewport), which is exactly what lets the wash below break out wider
+     without changing that height. Deliberately NOT overflow: hidden — that
+     would clip the full-bleed wash right back down to this box's own
+     width, defeating the point. `.hero` handles the horizontal safety net
+     instead. */
+  .hero__gallery-outer {
     position: relative;
-    overflow: hidden;
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 3 / 2;
   }
 
+  /* Full-bleed: breaks out of `.container`'s max-width/padding to span the
+     full viewport width, at the same height as `.hero__gallery-outer` (set
+     explicitly via `height: 100%` rather than left as an implied top/bottom
+     stretch — mixing left+right+width+margins to center a 100vw box left
+     that height ambiguous in some browsers, which grew the box instead of
+     matching it). `left: 50%` + `translateX(-50%)` centers it on the
+     viewport itself regardless of how deep this sits inside `.container`,
+     without touching `right` or margins at all. A flat, low-opacity tint
+     of the site's own sage green — not photo content, so nothing about it
+     can ever look mismatched with whichever photo is currently showing. */
+  .hero__gallery-wash {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    height: 100%;
+    transform: translateX(-50%);
+    background-color: var(--sage);
+    opacity: 0.12;
+  }
+
+  /* Slides crossfade with a bit of intentional overlap (see @keyframes
+     hero-fade below) rather than a hard handoff — safe now that there's no
+     per-slide backdrop to fall out of sync, and it avoids the beat of bare
+     wash between photos that a zero-overlap handoff left. */
   .hero__slide {
     position: absolute;
     inset: 0;
@@ -124,27 +188,61 @@ const cycleSeconds = slides.length * slotSeconds;
     animation: hero-fade var(--heroCycle) infinite;
   }
 
-  .hero__slide-img {
+  /* :global() because this class targets the <img> rendered inside the
+     CloudinaryImage child component — Astro only auto-scopes elements
+     written directly in this file's own template (see the matching note
+     in Gallery.astro), so an unscoped rule here would silently no-op and
+     leave the photo unstyled and in normal flow, painted underneath the
+     wash. */
+  :global(.hero__slide-img) {
+    position: relative;
+    z-index: 1;
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+  }
+
+  /* Small screens: a landscape photo is close enough to full-width already
+     that boxing it just adds a soft border of wash around what could be a
+     full-bleed banner. So landscape slides go full-bleed themselves — the
+     photo IS the background, edge to edge. Portrait slides are untouched
+     here (still boxed over the wash) since a portrait photo can't cover a
+     wide strip without either heavy cropping or leaving empty edges. */
+  @media (max-width: 39.99em) {
+    .hero__slide--landscape :global(.hero__slide-img) {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 100vw;
+      height: 100%;
+      transform: translateX(-50%);
+      object-fit: cover;
+    }
   }
 
   /* Each slide shares one keyframe loop; a negative animation-delay
      (set inline per slide) staggers where in the loop it starts, so the
-     slides advance in sequence with no JS required. */
+     slides advance in sequence with no JS required.
+     These percentages are sized for exactly 8 slides at slotSeconds=4
+     (each slide's own slot = 1/8 = 12.5% of the 32s cycle) — recalculate
+     them if the slide count or slotSeconds above ever changes. Each slide
+     fades in over 1s, holds for 3s, then fades out over 1s — a 5s span
+     against a 4s slot, so it overlaps the next slide by about 1s instead
+     of dropping to zero opacity in between. That overlap is what makes
+     this read as a proper dissolve rather than a blink with a gap of bare
+     wash between photos. */
   @keyframes hero-fade {
     0% {
       opacity: 0;
     }
-    4% {
+    3.125% {
       opacity: 1;
     }
-    18% {
+    12.5% {
       opacity: 1;
     }
-    24% {
+    15.625% {
       opacity: 0;
     }
     100% {
