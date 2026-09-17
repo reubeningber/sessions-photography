@@ -136,3 +136,7 @@ triggers a production build (`npm run build`, publishing `dist`, per
 - **GA4**: `PUBLIC_GA_MEASUREMENT_ID` only loads `gtag.js` in production
   builds, so local dev never pollutes real analytics. Check **GA4 → Reports →
   Realtime** to confirm tracking on the live site.
+- **If sessions.reubeningber.com stops being indexed again**, check the
+  Cloudflare Zero Trust dashboard for a leftover Access application on this
+  hostname before assuming it's a code issue — see git history around the
+  coming-soon-page branch.
