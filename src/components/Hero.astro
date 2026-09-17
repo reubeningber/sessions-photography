@@ -49,8 +49,8 @@ const cycleSeconds = slides.length * slotSeconds;
 
 <section class="hero">
   <div class="container hero__inner">
-    <p class="eyebrow">Family Photography · NY Tri-State Area</p>
-    <h1>Family photographer in the New York tri-state area — <em>real days, kept well.</em></h1>
+    <h1 class="eyebrow">Family Photographer in the New York Tri-State Area</h1>
+    <span class="hero__headline">Real days, <em>kept well.</em></span>
     <p class="hero__subhead">
       Warm, true-to-life family photography around the New York tri-state area —
       bodega runs, stoop light, and Sunday mornings, the way you'll actually want to
@@ -117,11 +117,21 @@ const cycleSeconds = slides.length * slotSeconds;
     margin-block-end: clamp(2rem, 5vw, 3.5rem);
   }
 
-  .hero h1 {
+  /* Was a real <h1>; now the eyebrow above carries that role instead (see
+     the markup), so this replicates the global h1/h2/h3 typography rules
+     (src/styles/global.css) by hand, since those are element selectors
+     that no longer match a <span>. */
+  .hero__headline {
+    display: block;
     margin-block-start: 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.25rem, 4vw + 1rem, 4rem);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
   }
 
-  .hero h1 em {
+  .hero__headline em {
     color: var(--sage);
   }
 
